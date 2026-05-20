@@ -25,36 +25,57 @@
   }
 
   .app-card {
-    background: var(--color-background-secondary);
-    border-radius: var(--border-radius-lg);
-    padding: 30px 25px;
+    background: linear-gradient(135deg, var(--color-background-secondary) 0%, var(--color-background-primary) 100%);
+    border-radius: 24px;
+    padding: 40px 32px;
     width: 100%;
-    max-width: 340px;
+    max-width: 380px;
     text-align: center;
-    border: 0.5px solid var(--color-border-tertiary);
+    border: 0.5px solid var(--color-border-secondary);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .app-title {
+    font-size: 28px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
   }
 
   .volume-control {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 12px;
+    gap: 12px;
+    padding: 14px 16px;
     background: var(--color-background-primary);
-    border-radius: var(--border-radius-md);
+    border-radius: 16px;
     border: 0.5px solid var(--color-border-tertiary);
   }
 
+  .volume-icon {
+    font-size: 18px;
+    color: #185FA5;
+  }
+
   .volume-label {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--color-text-secondary);
-    min-width: 35px;
+    font-weight: 500;
+    min-width: 32px;
   }
 
   .volume-slider {
     flex: 1;
-    height: 4px;
-    border-radius: 2px;
+    height: 5px;
+    border-radius: 3px;
     background: var(--color-border-tertiary);
     outline: none;
     -webkit-appearance: none;
@@ -64,53 +85,59 @@
   .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background: #185FA5;
+    background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%);
     cursor: pointer;
-    border: 0.5px solid var(--color-border-secondary);
+    border: 2px solid var(--color-background-primary);
+    box-shadow: 0 2px 8px rgba(24, 95, 165, 0.3);
   }
 
   .volume-slider::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background: #185FA5;
+    background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%);
     cursor: pointer;
-    border: 0.5px solid var(--color-border-secondary);
+    border: 2px solid var(--color-background-primary);
+    box-shadow: 0 2px 8px rgba(24, 95, 165, 0.3);
   }
 
   .volume-value {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--color-text-primary);
-    min-width: 25px;
-    font-weight: 500;
+    min-width: 32px;
+    font-weight: 600;
   }
 
   .tabs {
     display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    border-bottom: 0.5px solid var(--color-border-tertiary);
+    gap: 8px;
+    margin-bottom: 28px;
+    background: var(--color-background-primary);
+    padding: 6px;
+    border-radius: 14px;
+    border: 0.5px solid var(--color-border-tertiary);
   }
 
   .tab-btn {
     flex: 1;
-    padding: 12px 0;
+    padding: 10px 16px;
     font-size: 14px;
     font-weight: 500;
-    background: none;
+    background: transparent;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-radius: 12px;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .tab-btn.active {
-    color: var(--color-text-primary);
-    border-bottom-color: #185FA5;
+    background: var(--color-background-secondary);
+    color: #185FA5;
+    box-shadow: 0 2px 8px rgba(24, 95, 165, 0.1);
   }
 
   .tab-btn:hover {
@@ -123,36 +150,50 @@
 
   .tab-content.active {
     display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--color-text-primary);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    letter-spacing: 0.3px;
   }
 
   .display {
     background: var(--color-background-primary);
     border: 0.5px solid var(--color-border-tertiary);
-    border-radius: var(--border-radius-md);
-    padding: 25px 20px;
-    margin-bottom: 25px;
+    border-radius: 20px;
+    padding: 32px 24px;
+    margin-bottom: 28px;
     transition: all 0.3s ease;
   }
 
   .display.pulse {
-    animation: pulse-animation 0.6s ease-out 3;
+    animation: pulse-fancy 0.6s ease-out 3;
   }
 
-  @keyframes pulse-animation {
+  @keyframes pulse-fancy {
     0% {
       background: var(--color-background-primary);
       transform: scale(1);
     }
     50% {
-      background: #FCE8E8;
-      transform: scale(1.02);
+      background: #FFF0F0;
+      transform: scale(1.03);
+      box-shadow: 0 4px 16px rgba(226, 75, 74, 0.15);
     }
     100% {
       background: var(--color-background-primary);
@@ -161,9 +202,9 @@
   }
 
   .time {
-    font-size: 48px;
-    font-weight: 500;
-    color: var(--color-text-primary);
+    font-size: 56px;
+    font-weight: 600;
+    color: #185FA5;
     font-family: var(--font-mono);
     letter-spacing: 2px;
   }
@@ -171,64 +212,81 @@
   .milliseconds {
     font-size: 18px;
     color: var(--color-text-secondary);
-    margin-top: 5px;
+    margin-top: 8px;
+    font-weight: 500;
   }
 
   .input-group {
     display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
     justify-content: center;
   }
 
-  .time-input {
-    width: 60px;
-    padding: 8px;
-    font-size: 14px;
-    border: 0.5px solid var(--color-border-secondary);
-    border-radius: var(--border-radius-md);
-    background: var(--color-background-primary);
-    color: var(--color-text-primary);
-    text-align: center;
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .time-input::placeholder {
-    color: var(--color-text-tertiary);
+  .time-input {
+    width: 70px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 14px;
+    background: var(--color-background-primary);
+    color: #185FA5;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .time-input:focus {
+    outline: none;
+    border-color: #185FA5;
+    box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.1);
   }
 
   .input-label {
     font-size: 12px;
     color: var(--color-text-secondary);
-    margin-top: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .buttons {
     display: flex;
     gap: 12px;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
   }
 
   button {
     flex: 1;
     min-width: 70px;
-    padding: 12px 16px;
+    padding: 13px 18px;
     font-size: 14px;
-    font-weight: 500;
-    border: 0.5px solid var(--color-border-secondary);
-    background: var(--color-background-primary);
-    color: var(--color-text-primary);
-    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    border: none;
+    background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%);
+    color: white;
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(24, 95, 165, 0.2);
   }
 
-  button:hover {
-    background: var(--color-background-secondary);
+  button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(24, 95, 165, 0.3);
   }
 
-  button:active {
-    transform: scale(0.98);
+  button:active:not(:disabled) {
+    transform: translateY(0);
   }
 
   button:disabled {
@@ -237,57 +295,81 @@
   }
 
   .start-btn {
-    border-color: #639922;
-    color: #3B6D11;
+    background: linear-gradient(135deg, #639922 0%, #3B6D11 100%);
+    box-shadow: 0 4px 12px rgba(99, 153, 34, 0.2);
   }
 
   .start-btn:hover:not(:disabled) {
-    background: #EAF3DE;
+    box-shadow: 0 6px 16px rgba(99, 153, 34, 0.3);
   }
 
   .pause-btn {
-    border-color: #BA7517;
-    color: #854F0B;
+    background: linear-gradient(135deg, #BA7517 0%, #854F0B 100%);
+    box-shadow: 0 4px 12px rgba(186, 117, 23, 0.2);
   }
 
   .pause-btn:hover:not(:disabled) {
-    background: #FAEEDA;
+    box-shadow: 0 6px 16px rgba(186, 117, 23, 0.3);
   }
 
   .reset-btn {
-    border-color: #A32D2D;
-    color: #791F1F;
+    background: linear-gradient(135deg, #A32D2D 0%, #791F1F 100%);
+    box-shadow: 0 4px 12px rgba(163, 45, 45, 0.2);
   }
 
   .reset-btn:hover:not(:disabled) {
-    background: #FCEBEB;
+    box-shadow: 0 6px 16px rgba(163, 45, 45, 0.3);
+  }
+
+  .lap-btn {
+    background: linear-gradient(135deg, #185FA5 0%, #0F6E56 100%);
+    width: 100%;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(24, 95, 165, 0.2);
+  }
+
+  .lap-btn:hover:not(:disabled) {
+    box-shadow: 0 6px 16px rgba(24, 95, 165, 0.3);
   }
 
   .laps {
     text-align: left;
     background: var(--color-background-primary);
     border: 0.5px solid var(--color-border-tertiary);
-    border-radius: var(--border-radius-md);
-    padding: 15px;
-    max-height: 150px;
+    border-radius: 16px;
+    padding: 18px;
+    max-height: 160px;
     overflow-y: auto;
   }
 
   .laps-title {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--color-text-secondary);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     text-transform: uppercase;
+    letter-spacing: 0.8px;
   }
 
   .lap-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 0.5px solid var(--color-border-tertiary);
     font-size: 13px;
     color: var(--color-text-primary);
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .lap-item:last-child {
@@ -296,11 +378,13 @@
 
   .lap-number {
     color: var(--color-text-secondary);
+    font-weight: 500;
   }
 
   .lap-time {
     font-family: var(--font-mono);
-    font-weight: 500;
+    font-weight: 600;
+    color: #185FA5;
   }
 
   .empty-laps {
@@ -312,12 +396,14 @@
   .timer-status {
     font-size: 13px;
     color: var(--color-text-secondary);
-    margin-bottom: 15px;
+    margin-bottom: 0;
+    font-weight: 500;
+    height: 20px;
   }
 
   .timer-status.finished {
     color: #A32D2D;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .flash-overlay {
@@ -326,23 +412,40 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 100, 100, 0.3);
+    background: rgba(255, 100, 100, 0.25);
     pointer-events: none;
     display: none;
-    animation: flash 0.5s ease-out;
+    animation: flash-fancy 0.6s ease-out;
   }
 
   .flash-overlay.show {
     display: block;
   }
 
-  @keyframes flash {
+  @keyframes flash-fancy {
     0% {
       opacity: 1;
     }
     100% {
       opacity: 0;
     }
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-secondary);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-primary);
   }
 </style>
 </head>
@@ -352,10 +455,14 @@
 
 <div class="container">
   <div class="app-card">
-    <div class="volume-control">
-      <span class="volume-label">음량</span>
-      <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
-      <span class="volume-value" id="volume-value">50%</span>
+    <div class="header">
+      <div class="app-title">타이머</div>
+      <div class="volume-control">
+        <span class="volume-icon"><i class="ti ti-volume-2" aria-hidden="true"></i></span>
+        <span class="volume-label">음량</span>
+        <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
+        <span class="volume-value" id="volume-value">50%</span>
+      </div>
     </div>
 
     <div class="tabs">
@@ -378,9 +485,7 @@
         <button class="reset-btn" id="stopwatch-reset">초기화</button>
       </div>
 
-      <button style="width: 100%; margin-bottom: 20px; border-color: #185FA5; color: #0C447C;" id="stopwatch-lap" disabled>
-        랩
-      </button>
+      <button class="lap-btn" id="stopwatch-lap" disabled>랩 기록</button>
 
       <div class="laps">
         <div class="laps-title">기록</div>
@@ -393,12 +498,13 @@
       <div class="title">타이머</div>
 
       <div class="input-group" id="timer-inputs">
-        <div>
-          <input type="number" class="time-input" id="timer-minutes" placeholder="분" min="0" max="59" value="1">
+        <div class="input-wrapper">
+          <input type="number" class="time-input" id="timer-minutes" placeholder="00" min="0" max="59" value="1">
           <div class="input-label">분</div>
         </div>
-        <div>
-          <input type="number" class="time-input" id="timer-seconds" placeholder="초" min="0" max="59" value="0">
+        <div style="display: flex; align-items: center; color: var(--color-text-secondary); font-size: 24px; font-weight: 300;">:</div>
+        <div class="input-wrapper">
+          <input type="number" class="time-input" id="timer-seconds" placeholder="00" min="0" max="59" value="0">
           <div class="input-label">초</div>
         </div>
       </div>
@@ -420,13 +526,11 @@
 <script>
   let volumeLevel = 0.5;
 
-  // 음량 조절
   document.getElementById('volume-slider').addEventListener('input', (e) => {
     volumeLevel = e.target.value / 100;
     document.getElementById('volume-value').textContent = e.target.value + '%';
   });
 
-  // Web Audio API로 비프음 생성 및 저장
   function createBeepSound() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const sampleRate = audioContext.sampleRate;
@@ -446,7 +550,6 @@
     return audioBuffer;
   }
 
-  // 비프음 재생
   function playBeep() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const buffer = createBeepSound();
@@ -463,24 +566,20 @@
     source.start(audioContext.currentTime);
   }
 
-  // 시각적 효과
   function triggerVisualEffect() {
     const displayBox = document.getElementById('timer-display-box');
     const overlay = document.getElementById('flash-overlay');
     
-    // 디스플레이 박스 펄스 효과
     displayBox.classList.remove('pulse');
     void displayBox.offsetWidth;
     displayBox.classList.add('pulse');
     
-    // 화면 플래시 효과
     overlay.classList.add('show');
     setTimeout(() => {
       overlay.classList.remove('show');
-    }, 500);
+    }, 600);
   }
 
-  // 탭 전환
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -492,7 +591,6 @@
     });
   });
 
-  // ===== 스톱워치 코드 =====
   let stopwatchTime = 0;
   let stopwatchRunning = false;
   let stopwatchInterval = null;
@@ -585,7 +683,6 @@
   stopwatchResetBtn.addEventListener('click', resetStopwatch);
   stopwatchLapBtn.addEventListener('click', addLapStopwatch);
 
-  // ===== 타이머 코드 =====
   let timerTotal = 60000;
   let timerRemaining = 60000;
   let timerRunning = false;
@@ -646,7 +743,6 @@
           timerStatus.classList.add('finished');
           updateTimerDisplay();
           
-          // 완료음 재생 및 시각적 효과
           triggerVisualEffect();
           playBeep();
           setTimeout(() => playBeep(), 300);
