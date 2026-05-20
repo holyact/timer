@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-background-primary);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: var(--color-background-primary);
+  }
+
+  .app-card {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: 30px 25px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--color-background-primary);
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .volume-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    min-width: 35px;
+  }
+
+  .volume-slider {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-border-tertiary);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #185FA5;
+    cursor: pointer;
+    border: 0.5px solid var(--color-border-secondary);
+  }
+
+  .volume-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #185FA5;
+    cursor: pointer;
+    border: 0.5px solid var(--color-border-secondary);
+  }
+
+  .volume-value {
+    font-size: 12px;
+    color: var(--color-text-primary);
+    min-width: 25px;
+    font-weight: 500;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tab-btn.active {
+    color: var(--color-text-primary);
+    border-bottom-color: #185FA5;
+  }
+
+  .tab-btn:hover {
+    color: var(--color-text-primary);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+  }
+
+  .display {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 25px 20px;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+  }
+
+  .display.pulse {
+    animation: pulse-animation 0.6s ease-out 3;
+  }
+
+  @keyframes pulse-animation {
+    0% {
+      background: var(--color-background-primary);
+      transform: scale(1);
+    }
+    50% {
+      background: #FCE8E8;
+      transform: scale(1.02);
+    }
+    100% {
+      background: var(--color-background-primary);
+      transform: scale(1);
+    }
+  }
+
+  .time {
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+    letter-spacing: 2px;
+  }
+
+  .milliseconds {
+    font-size: 18px;
+    color: var(--color-text-secondary);
+    margin-top: 5px;
+  }
+
+  .input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .time-input {
+    width: 60px;
+    padding: 8px;
+    font-size: 14px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+
+  .time-input::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .input-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    flex: 1;
+    min-width: 70px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  button:hover {
+    background: var(--color-background-secondary);
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .start-btn {
+    border-color: #639922;
+    color: #3B6D11;
+  }
+
+  .start-btn:hover:not(:disabled) {
+    background: #EAF3DE;
+  }
+
+  .pause-btn {
+    border-color: #BA7517;
+    color: #854F0B;
+  }
+
+  .pause-btn:hover:not(:disabled) {
+    background: #FAEEDA;
+  }
+
+  .reset-btn {
+    border-color: #A32D2D;
+    color: #791F1F;
+  }
+
+  .reset-btn:hover:not(:disabled) {
+    background: #FCEBEB;
+  }
+
+  .laps {
+    text-align: left;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .laps-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .lap-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    font-size: 13px;
+    color: var(--color-text-primary);
+  }
+
+  .lap-item:last-child {
+    border-bottom: none;
+  }
+
+  .lap-number {
+    color: var(--color-text-secondary);
+  }
+
+  .lap-time {
+    font-family: var(--font-mono);
+    font-weight: 500;
+  }
+
+  .empty-laps {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    padding: 10px 0;
+  }
+
+  .timer-status {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 15px;
+  }
+
+  .timer-status.finished {
+    color: #A32D2D;
+    font-weight: 500;
+  }
+
+  .flash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 100, 100, 0.3);
+    pointer-events: none;
+    display: none;
+    animation: flash 0.5s ease-out;
+  }
+
+  .flash-overlay.show {
+    display: block;
+  }
+
+  @keyframes flash {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="flash-overlay" id="flash-overlay"></div>
+
+<div class="container">
+  <div class="app-card">
+    <div class="volume-control">
+      <span class="volume-label">음량</span>
+      <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50">
+      <span class="volume-value" id="volume-value">50%</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="stopwatch">스톱워치</button>
+      <button class="tab-btn" data-tab="timer">타이머</button>
+    </div>
+
+    <!-- 스톱워치 탭 -->
+    <div id="stopwatch" class="tab-content active">
+      <div class="title">스톱워치</div>
+
+      <div class="display">
+        <div class="time" id="stopwatch-display">00:00:00</div>
+        <div class="milliseconds" id="stopwatch-ms">.000</div>
+      </div>
+
+      <div class="buttons">
+        <button class="start-btn" id="stopwatch-start">시작</button>
+        <button class="pause-btn" id="stopwatch-pause" disabled>일시정지</button>
+        <button class="reset-btn" id="stopwatch-reset">초기화</button>
+      </div>
+
+      <button style="width: 100%; margin-bottom: 20px; border-color: #185FA5; color: #0C447C;" id="stopwatch-lap" disabled>
+        랩
+      </button>
+
+      <div class="laps">
+        <div class="laps-title">기록</div>
+        <div id="stopwatch-laps" class="empty-laps">기록이 없습니다</div>
+      </div>
+    </div>
+
+    <!-- 타이머 탭 -->
+    <div id="timer" class="tab-content">
+      <div class="title">타이머</div>
+
+      <div class="input-group" id="timer-inputs">
+        <div>
+          <input type="number" class="time-input" id="timer-minutes" placeholder="분" min="0" max="59" value="1">
+          <div class="input-label">분</div>
+        </div>
+        <div>
+          <input type="number" class="time-input" id="timer-seconds" placeholder="초" min="0" max="59" value="0">
+          <div class="input-label">초</div>
+        </div>
+      </div>
+
+      <div class="display" id="timer-display-box">
+        <div class="time" id="timer-display">01:00</div>
+        <div class="timer-status" id="timer-status"></div>
+      </div>
+
+      <div class="buttons">
+        <button class="start-btn" id="timer-start">시작</button>
+        <button class="pause-btn" id="timer-pause" disabled>일시정지</button>
+        <button class="reset-btn" id="timer-reset">초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let volumeLevel = 0.5;
+
+  // 음량 조절
+  document.getElementById('volume-slider').addEventListener('input', (e) => {
+    volumeLevel = e.target.value / 100;
+    document.getElementById('volume-value').textContent = e.target.value + '%';
+  });
+
+  // Web Audio API로 비프음 생성 및 저장
+  function createBeepSound() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const sampleRate = audioContext.sampleRate;
+    const audioBuffer = audioContext.createBuffer(1, sampleRate * 0.5, sampleRate);
+    const data = audioBuffer.getChannelData(0);
+    
+    const frequency = 1000;
+    const frequency2 = 1200;
+    
+    for (let i = 0; i < audioBuffer.length; i++) {
+      const t = i / sampleRate;
+      const wave1 = Math.sin(2 * Math.PI * frequency * t);
+      const wave2 = Math.sin(2 * Math.PI * frequency2 * t);
+      data[i] = (wave1 + wave2) / 4;
+    }
+    
+    return audioBuffer;
+  }
+
+  // 비프음 재생
+  function playBeep() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const buffer = createBeepSound();
+    const source = audioContext.createBufferSource();
+    const gain = audioContext.createGain();
+    
+    source.buffer = buffer;
+    source.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    gain.gain.setValueAtTime(0.3 * volumeLevel, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01 * volumeLevel, audioContext.currentTime + 0.5);
+    
+    source.start(audioContext.currentTime);
+  }
+
+  // 시각적 효과
+  function triggerVisualEffect() {
+    const displayBox = document.getElementById('timer-display-box');
+    const overlay = document.getElementById('flash-overlay');
+    
+    // 디스플레이 박스 펄스 효과
+    displayBox.classList.remove('pulse');
+    void displayBox.offsetWidth;
+    displayBox.classList.add('pulse');
+    
+    // 화면 플래시 효과
+    overlay.classList.add('show');
+    setTimeout(() => {
+      overlay.classList.remove('show');
+    }, 500);
+  }
+
+  // 탭 전환
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      e.target.classList.add('active');
+      const tabId = e.target.dataset.tab;
+      document.getElementById(tabId).classList.add('active');
+    });
+  });
+
+  // ===== 스톱워치 코드 =====
+  let stopwatchTime = 0;
+  let stopwatchRunning = false;
+  let stopwatchInterval = null;
+  let stopwatchLaps = [];
+
+  const stopwatchDisplay = document.getElementById('stopwatch-display');
+  const stopwatchMs = document.getElementById('stopwatch-ms');
+  const stopwatchStartBtn = document.getElementById('stopwatch-start');
+  const stopwatchPauseBtn = document.getElementById('stopwatch-pause');
+  const stopwatchResetBtn = document.getElementById('stopwatch-reset');
+  const stopwatchLapBtn = document.getElementById('stopwatch-lap');
+  const stopwatchLapList = document.getElementById('stopwatch-laps');
+
+  function formatStopwatch(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return {
+      display: `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+      ms: `.${String(ms % 1000).padStart(3, '0')}`
+    };
+  }
+
+  function updateStopwatchDisplay() {
+    const time = formatStopwatch(stopwatchTime);
+    stopwatchDisplay.textContent = time.display;
+    stopwatchMs.textContent = time.ms;
+  }
+
+  function startStopwatch() {
+    if (!stopwatchRunning) {
+      stopwatchRunning = true;
+      stopwatchStartBtn.disabled = true;
+      stopwatchPauseBtn.disabled = false;
+      stopwatchLapBtn.disabled = false;
+
+      const startTime = Date.now() - stopwatchTime;
+
+      stopwatchInterval = setInterval(() => {
+        stopwatchTime = Date.now() - startTime;
+        updateStopwatchDisplay();
+      }, 10);
+    }
+  }
+
+  function pauseStopwatch() {
+    if (stopwatchRunning) {
+      stopwatchRunning = false;
+      clearInterval(stopwatchInterval);
+      stopwatchStartBtn.disabled = false;
+      stopwatchPauseBtn.disabled = true;
+    }
+  }
+
+  function resetStopwatch() {
+    clearInterval(stopwatchInterval);
+    stopwatchRunning = false;
+    stopwatchTime = 0;
+    stopwatchLaps = [];
+    updateStopwatchDisplay();
+    stopwatchStartBtn.disabled = false;
+    stopwatchPauseBtn.disabled = true;
+    stopwatchLapBtn.disabled = true;
+    stopwatchLapList.innerHTML = '<div class="empty-laps">기록이 없습니다</div>';
+  }
+
+  function addLapStopwatch() {
+    if (stopwatchRunning) {
+      stopwatchLaps.push(stopwatchTime);
+
+      let lapHTML = '';
+      stopwatchLaps.forEach((lap, index) => {
+        const lapFormatted = formatStopwatch(lap);
+        lapHTML += `
+          <div class="lap-item">
+            <span class="lap-number">랩 ${index + 1}</span>
+            <span class="lap-time">${lapFormatted.display}${lapFormatted.ms}</span>
+          </div>
+        `;
+      });
+
+      stopwatchLapList.innerHTML = lapHTML;
+    }
+  }
+
+  stopwatchStartBtn.addEventListener('click', startStopwatch);
+  stopwatchPauseBtn.addEventListener('click', pauseStopwatch);
+  stopwatchResetBtn.addEventListener('click', resetStopwatch);
+  stopwatchLapBtn.addEventListener('click', addLapStopwatch);
+
+  // ===== 타이머 코드 =====
+  let timerTotal = 60000;
+  let timerRemaining = 60000;
+  let timerRunning = false;
+  let timerInterval = null;
+
+  const timerMinutesInput = document.getElementById('timer-minutes');
+  const timerSecondsInput = document.getElementById('timer-seconds');
+  const timerDisplay = document.getElementById('timer-display');
+  const timerStatus = document.getElementById('timer-status');
+  const timerStartBtn = document.getElementById('timer-start');
+  const timerPauseBtn = document.getElementById('timer-pause');
+  const timerResetBtn = document.getElementById('timer-reset');
+  const timerInputs = document.getElementById('timer-inputs');
+
+  function formatTimer(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  function updateTimerDisplay() {
+    timerDisplay.textContent = formatTimer(timerRemaining);
+  }
+
+  function setTimerFromInputs() {
+    const minutes = parseInt(timerMinutesInput.value) || 0;
+    const seconds = parseInt(timerSecondsInput.value) || 0;
+    timerTotal = (minutes * 60 + seconds) * 1000;
+    timerRemaining = timerTotal;
+    updateTimerDisplay();
+    timerStatus.textContent = '';
+    timerStatus.classList.remove('finished');
+  }
+
+  function startTimer() {
+    if (!timerRunning && timerRemaining > 0) {
+      timerRunning = true;
+      timerStartBtn.disabled = true;
+      timerPauseBtn.disabled = false;
+      timerInputs.style.opacity = '0.5';
+      timerInputs.style.pointerEvents = 'none';
+
+      const startTime = Date.now();
+      const startRemaining = timerRemaining;
+
+      timerInterval = setInterval(() => {
+        timerRemaining = startRemaining - (Date.now() - startTime);
+
+        if (timerRemaining <= 0) {
+          timerRemaining = 0;
+          clearInterval(timerInterval);
+          timerRunning = false;
+          timerStartBtn.disabled = false;
+          timerPauseBtn.disabled = true;
+          timerStatus.textContent = '완료!';
+          timerStatus.classList.add('finished');
+          updateTimerDisplay();
+          
+          // 완료음 재생 및 시각적 효과
+          triggerVisualEffect();
+          playBeep();
+          setTimeout(() => playBeep(), 300);
+          setTimeout(() => playBeep(), 600);
+        } else {
+          updateTimerDisplay();
+        }
+      }, 100);
+    }
+  }
+
+  function pauseTimer() {
+    if (timerRunning) {
+      timerRunning = false;
+      clearInterval(timerInterval);
+      timerStartBtn.disabled = false;
+      timerPauseBtn.disabled = true;
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    setTimerFromInputs();
+    timerStartBtn.disabled = false;
+    timerPauseBtn.disabled = true;
+    timerInputs.style.opacity = '1';
+    timerInputs.style.pointerEvents = 'auto';
+    timerStatus.textContent = '';
+    timerStatus.classList.remove('finished');
+  }
+
+  timerMinutesInput.addEventListener('change', setTimerFromInputs);
+  timerSecondsInput.addEventListener('change', setTimerFromInputs);
+  timerStartBtn.addEventListener('click', startTimer);
+  timerPauseBtn.addEventListener('click', pauseTimer);
+  timerResetBtn.addEventListener('click', resetTimer);
+</script>
+
+</body>
+</html>
